@@ -1,33 +1,44 @@
 pipeline {
     agent any
-    tools {
-        maven '3.9.2'
-    }
+
+    // env {
+    //     def myString = "This is example string!"
+    // }
+
     stages {
+        stage('CleanUp') {
+            steps {
+                deleteDir()
+                exampleFunction("This is example string! from ckeanUp stage.")
+            }
+        }
+
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                echo "Faza Build"
             }
         }
+
+        stage('Deploy') {
+            steps {
+                echo "Faza Deploy"
+            }
+        }
+
         stage('Test') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                echo "Faza Test"
             }
         }
-        stage('Deliver') {
+
+        stage('Release') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
-        stage('Finish build') {
-            steps {
-                echo 'Complete'
+                echo "Faza Release"
             }
         }
     }
+}
+
+def exampleFunction(String exampleText) {
+    echo "exampleText jest wyswietlany jako: ${exampleText}"
 }
