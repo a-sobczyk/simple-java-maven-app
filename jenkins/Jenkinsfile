@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    // env {
-    //     def myString = "This is example string!"
-    // }
+    env {
+        def number = 121
+    }
 
     stages {
         stage('CleanUp') {
@@ -15,7 +15,15 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Faza Build"
+                script {
+                    if (params.number == 121) {
+                        currentBuild.result = "SUCCESS!!!"
+                        return
+                    }
+                    else {
+                        echo "number is not equal 121, so Build is faild"
+                    }
+                }
             }
         }
 
